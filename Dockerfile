@@ -1,5 +1,5 @@
 FROM node:18-alpine as install
-ARG APP_ROOT /app
+ENV APP_ROOT /app
 WORKDIR ${APP_ROOT}
 COPY ["package.json", "./"]
 RUN apk update
