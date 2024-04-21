@@ -12,4 +12,3 @@ COPY . .
 RUN chmod 777 ./.docker/docker-entrypoint.sh
 COPY --from=install /app/package-lock.json .
 COPY --from=install /app/node_modules ./node_modules
-RUN npm install -g serve
