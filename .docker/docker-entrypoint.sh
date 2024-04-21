@@ -1,6 +1,10 @@
 #!/bin/sh
 set -e
 
-serve -s build -l 4000
+npm install -g serve
+
+npm run build
+
+serve -s build -l 3000
 
 exec "$@"
