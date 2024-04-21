@@ -1,0 +1,5 @@
+include:
+  - project: lhgia1308/ci-template
+    file:
+      - ci-template.yml
+    ref: development
