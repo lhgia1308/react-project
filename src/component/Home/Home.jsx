@@ -1,7 +1,9 @@
 import React from "react";
 import "./Home.css"
 import { MultiItemCarousel } from "./MultiItemCarousel";
+import { StoreCard } from "../Store/StoreCard.jsx"
 
+const store = [1, 1,1, 1,1]
 export const Home = () => {
     return (
         <div className="">
@@ -20,6 +22,16 @@ export const Home = () => {
                     Top Meel
                 </p>
                 <MultiItemCarousel />
+            </section>
+            <section className="px-5 lg:px-20">
+                <h1 className="text-2xl font-semibold text-gray-400 py-3">
+                    Order From Our Handpicked Favorites
+                </h1>
+                <div className="flex flext-wrap items-center justify-around gap-5">
+                    {
+                        store.map((item) => <StoreCard />)
+                    }
+                </div>
             </section>
         </div>
     )
