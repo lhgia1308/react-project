@@ -5,15 +5,17 @@ import { Navbar } from "./component/Navbar/Navbar";
 import { Home } from "./component/Home/Home";
 import { StoreDetail } from "./component/Store/StoreDetail";
 import { Cart } from "./component/Cart/Cart";
+import { Profile } from "./component/Profile/Profile";
 
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Navbar />
-      <Home />
+      {/* <Home /> */}
       {/* <StoreDetail /> */}
       {/* <Cart /> */}
+      <Profile />
     </ThemeProvider>
   );
 }
