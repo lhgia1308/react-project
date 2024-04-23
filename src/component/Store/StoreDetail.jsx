@@ -87,7 +87,6 @@ export const StoreDetail = () => {
                             <Typography variant='h5' sx={{paddingBottom: "1rem"}}>
                                 Food Type
                             </Typography>
-
                             <FormControl className="py-10 space-y-5" component={"fieldset"}>
                                 <RadioGroup onChange={handleFilter} name="food_type" value={foodType}>
                                     {foodTypes.map((item) => (
