@@ -8,7 +8,7 @@ import { Favorites } from './Favorites';
 import { Events } from './Events';
 
 export const Profile = () => {
-    const [openSideBar, setOpenSideBar] = useState(false);
+    const [openSideBar] = useState(false);
   return (
     <div className="lg:flex justify-between">
         <div className="sticky h-[80vh] lg:w-[20%]">

@@ -3,7 +3,7 @@ import React from "react"
 import { CartItem } from "./CartItem"
 import { AddressCard } from "./AddressCard"
 import AddLocationIcon from '@mui/icons-material/AddLocation';
-import { ErrorMessage, Field, Formik, Form } from "formik";
+import { Field, Formik, Form } from "formik";
 import * as Yup from "yup"
 
 const style = {
@@ -39,7 +39,6 @@ export const Cart = () => {
         setOpen(true);
     }
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleSubmit = (values) => {
         console.log('values', values)
