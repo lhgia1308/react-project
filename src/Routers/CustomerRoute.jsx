@@ -1,11 +1,11 @@
 import React from 'react'
-import { Navbar } from '../Navbar/Navbar'
+import { Navbar } from '../component/Navbar/Navbar'
 import { Route, Routes } from 'react-router-dom'
-import { Home } from '../Home/Home'
-import { StoreDetail } from '../Store/StoreDetail'
-import { Cart } from '../Cart/Cart'
-import { Profile } from '../Profile/Profile'
-import { Auth } from '../Auth/Auth'
+import { Home } from '../component/Home/Home'
+import { StoreDetail } from '../component/Store/StoreDetail'
+import { Cart } from '../component/Cart/Cart'
+import { Profile } from '../component/Profile/Profile'
+import { Auth } from '../component/Auth/Auth'
 
 export const CustomerRoute = () => {
   return (
