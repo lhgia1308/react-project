@@ -13,6 +13,14 @@ export const Navbar = () => {
     const navigate = useNavigate();
     const { auth } = useSelector(store => store)
     console.log('auth', auth)
+    const handleClickAvatar = () => {
+        if(auth.user.role === 'ADMIN') {
+            navigate('/admin/dashboard')
+        }
+        else {
+            navigate('/my-profile')
+        }
+    }
     return (
         <Box 
         className="px-5 sticky top-0 z-50 py-[.8rem] bg-[#e91e63] lg:px-20 flex justify-between"
@@ -33,7 +41,7 @@ export const Navbar = () => {
                         auth.user ? 
                         <Avatar 
                         sx={{bgcolor: "white", color: pink.A400}}
-                        onClick={()=>navigate("/my-profile")}
+                        onClick={handleClickAvatar}
                         >
                             {auth.user.fullName[0].toUpperCase()}
                         </Avatar> :

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Divider, Drawer, useMediaQuery } from '@mui/material';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -10,8 +10,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../State/Authentication/Action';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import { CustomModal } from '../Modal/CustomModal';
 
 const menu = [
+    {title: "Dashboard", icon: <DashboardIcon/>},
     {title: "Orders", icon: <ShoppingBagIcon/>},
     {title: "Favorites", icon: <FavoriteIcon/>},
     {title: "Address", icon: <AddReactionIcon/>},
@@ -25,15 +28,20 @@ export const ProfileNavigation = ({open, handleClose}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const jwt = localStorage.getItem('jwt');
+    const [openConfirmation, setOpenConfirmation] = useState(false);
+    const handleLogout = () => {
+        dispatch(logout({jwt, navigate}))
+        setOpenConfirmation(false)
+    }
     const handleNavigate = (item) => {
         if(item.title === 'Logout') {
-            dispatch(logout({jwt: jwt}))
-            navigate("/")
+            setOpenConfirmation(true);
         }
         else {
             navigate(`/my-profile/${item.title.toLowerCase()}`)
         }   
     }
+    
   return (
     <div>
         <Drawer 
@@ -53,6 +61,13 @@ export const ProfileNavigation = ({open, handleClose}) => {
                 </>)}
             </div>
         </Drawer>
+        <CustomModal 
+        title="LOGOUT" 
+        content="Do you want to logout?" 
+        open={openConfirmation} 
+        setOpenConfirmation={setOpenConfirmation}
+        handleLogout={handleLogout}
+        />
     </div>
   )
 }
