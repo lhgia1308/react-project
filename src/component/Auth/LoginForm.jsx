@@ -16,12 +16,13 @@ export const LoginForm = () => {
     const dispatch = useDispatch();
     const handleSubmit = (values) => {
         console.log('values', values);
-        dispatch(loginUser({reqData: values}))
+        dispatch(loginUser({reqData: values, setError: setError, navigate: navigate}))
     }
     const [showPassword, setShowPassword] = useState(false);
     const handleShowPassword = () => {
         setShowPassword(!showPassword)
     }
+    const [error, setError] = useState('');
   return (
     <div>
         <Typography variant='h5' className='text-center'>
@@ -58,6 +59,7 @@ export const LoginForm = () => {
                         }
                     </div>
                 </div>
+                <Typography sx={{color:'red', fontWeight:'bold', textAlign: 'center'}}>{error}</Typography>
                 <Button
                 sx={{mt:2, padding:'1rem'}}
                 type='submit'

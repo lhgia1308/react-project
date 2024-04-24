@@ -34,22 +34,21 @@ export const registerUser = (reqData) => async (dispatch) => {
 };
 
 export const loginUser =
-  ({ reqData }) =>
+  ({ reqData, setError, navigate }) =>
   async (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
     try {
       console.log("loginUser reqData", reqData);
-      const { data } = await axios.post(
-        `${API_URL}/auth/sign-in`,
-        reqData.userData
-      );
+      const { data } = await axios.post(`${API_URL}/auth/sign-in`, reqData);
       console.log("loginUser resData", data);
       if (data.data.accessToken) {
         localStorage.setItem("jwt", data.data.accessToken);
       }
       dispatch({ type: LOGIN_SUCCESS, payload: data.data.accessToken });
       console.log("loginUser success", data);
+      navigate("/my-profile");
     } catch (error) {
+      setError("Username or password is not correct!");
       dispatch({ type: LOGIN_FAILURE, payload: error });
       console.log("loginUser error", error);
     }
@@ -73,19 +72,16 @@ export const getUser = (jwt) => async (dispatch) => {
 };
 
 export const logout =
-  ({ jwt }) =>
+  ({ jwt, navigate }) =>
   async (dispatch) => {
     dispatch({ type: LOGOUT });
     try {
-      const { data } = await axios.post(
-        `${API_URL}/auth/log-out`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
+      const { data } = await axios.get(`${API_URL}/auth/log-out`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      navigate("/");
       console.log("logout resData", data);
       localStorage.clear();
       dispatch({ type: LOGOUT });
