@@ -16,7 +16,7 @@ export const LoginForm = () => {
     const dispatch = useDispatch();
     const handleSubmit = (values) => {
         console.log('values', values);
-        dispatch(loginUser({userData: values}, navigate))
+        dispatch(loginUser({reqData: values}))
     }
     const [showPassword, setShowPassword] = useState(false);
     const handleShowPassword = () => {
