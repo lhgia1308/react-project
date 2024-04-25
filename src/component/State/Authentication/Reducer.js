@@ -49,7 +49,8 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        user: action.payload.userData,
+        jwt: action.payload.jwt,
+        user: action.payload.userInfo,
         success: "Login success",
       };
     case ADD_TO_FAVORITE_SUCCESS:

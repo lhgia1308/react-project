@@ -7,8 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 export const CustomModal = (props) => {
-  console.log('props', props)
-  const { open, title, content, setOpenConfirmation, handleLogout } = props;
+  const { open, title, setOpenConfirmation, handleAccept } = props;
   const handleCloseModal = () => {
     setOpenConfirmation(false)
   }
@@ -24,11 +23,12 @@ export const CustomModal = (props) => {
         >
           <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">{content}</DialogContentText>
+            <DialogContentText sx={{fontSize: "1.25rem"}} 
+            id="alert-dialog-description">{props.children}</DialogContentText>
           </DialogContent>
           <DialogActions className='gap-10'>
             <Button variant='outlined' onClick={handleCloseModal}>Cancel</Button>
-            <Button variant='contained' onClick={handleLogout} autoFocus>Agree</Button>
+            <Button variant='contained' onClick={handleAccept} autoFocus>Agree</Button>
           </DialogActions>
         </Dialog>
       </React.Fragment>

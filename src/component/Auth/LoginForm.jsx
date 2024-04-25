@@ -2,10 +2,11 @@ import { Button, TextField, Typography } from '@mui/material'
 import { Field, Form, Formik } from 'formik'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { loginUser } from '../State/Authentication/Action'
 import { useDispatch } from 'react-redux'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import Alert from '@mui/material/Alert';
+import { loginUser } from '../State/Authentication/Action'
 
 const initialValues = {
     email: '',
@@ -16,7 +17,7 @@ export const LoginForm = () => {
     const dispatch = useDispatch();
     const handleSubmit = (values) => {
         console.log('values', values);
-        dispatch(loginUser({reqData: values, setError: setError, navigate: navigate}))
+        dispatch(loginUser({reqData: values, setError, navigate}))
     }
     const [showPassword, setShowPassword] = useState(false);
     const handleShowPassword = () => {
@@ -59,7 +60,7 @@ export const LoginForm = () => {
                         }
                     </div>
                 </div>
-                <Typography sx={{color:'red', fontWeight:'bold', textAlign: 'center'}}>{error}</Typography>
+                {error && <Alert severity="error">{error}</Alert>}
                 <Button
                 sx={{mt:2, padding:'1rem'}}
                 type='submit'
