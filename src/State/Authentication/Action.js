@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL } from "../../Config/api";
+import { API_URL } from "../../component/Config/api";
 import {
   GET_USER_FAILURE,
   GET_USER_REQUEST,

@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { CustomModal } from '../Modal/CustomModal';
-import { logout } from '../State/Authentication/Action';
+import { logout } from '../../State/Authentication/Action';
 
 export const UserProfile = () => {
   const dispatch = useDispatch();

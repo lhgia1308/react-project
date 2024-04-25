@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { CustomModal } from '../Modal/CustomModal';
-import { logout } from '../State/Authentication/Action';
+import { logout } from '../../State/Authentication/Action';
 
 const menu = [
     {title: "Dashboard", icon: <DashboardIcon/>},
