@@ -2,10 +2,11 @@ import { Button, TextField, Typography } from '@mui/material'
 import { Field, Form, Formik } from 'formik'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { registerUser } from '../State/Authentication/Action'
 import { useDispatch } from 'react-redux'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import Alert from '@mui/material/Alert';
+import { registerUser } from '../State/Authentication/Action'
 
 const initialValues = {
   email: '',
@@ -19,7 +20,12 @@ export const RegisterForm = () => {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [error, setError] = useState('')
   const handleSubmit = (values) => {
+    if(values.password !== values.confirmPassword) {
+      setError('Password and confirmation password are not the same!')
+      return;
+    }
     console.log('values', values);
     dispatch(registerUser({userData: values}, navigate))
   }
@@ -70,7 +76,7 @@ export const RegisterForm = () => {
               <div className='relative'>
                 <Field
                 as={TextField}
-                name="confirm-password"
+                name="confirmPassword"
                 label="Confirm password"
                 fullWidth
                 variant="outlined"
@@ -110,6 +116,8 @@ export const RegisterForm = () => {
               variant="outlined"
               margin="normal"
               />
+
+              {error && <Alert severity="error">{error}</Alert>}
 
               <Button
               sx={{mt:2, padding:'1rem'}}

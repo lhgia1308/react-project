@@ -12,15 +12,16 @@ import HomeIcon from '@mui/icons-material/Home';
 export const Navbar = () => {
     const navigate = useNavigate();
     const { auth } = useSelector(store => store)
-    console.log('auth', auth)
+    console.log('Navbar auth', auth)
     const handleClickAvatar = () => {
-        if(auth.user.role === 'ADMIN') {
-            navigate('/admin/dashboard')
+        if(auth.user?.role === 'ADMIN') {
+            navigate('/admin')
         }
         else {
             navigate('/my-profile')
         }
     }
+    
     return (
         <Box 
         className="px-5 sticky top-0 z-50 py-[.8rem] bg-[#e91e63] lg:px-20 flex justify-between"

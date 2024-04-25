@@ -12,26 +12,25 @@ import {
   REGISTER_SUCCESS,
 } from "./ActionType";
 
-export const registerUser = (reqData) => async (dispatch) => {
-  dispatch({ type: REGISTER_REQUEST });
-  try {
-    console.log("registerUser reqData", reqData);
-    const { data } = await axios.post(
-      `${API_URL}/auth/sign-up`,
-      reqData.userData
-    );
-    console.log("registerUser resData", data);
-    if (data.data.accessToken) {
-      localStorage.setItem("jwt", data.data.accessToken);
+export const registerUser =
+  ({ reqData, setError, navigate }) =>
+  async (dispatch) => {
+    dispatch({ type: REGISTER_REQUEST });
+    try {
+      console.log("registerUser reqData", reqData);
+      const { data } = await axios.post(`${API_URL}/auth/sign-up`, reqData);
+      console.log("registerUser resData", data);
+      if (data.data.accessToken) {
+        localStorage.setItem("jwt", data.data.accessToken);
+      }
+      dispatch({ type: REGISTER_SUCCESS, payload: data.data.accessToken });
+      console.log("registerUser success", data);
+      navigate(-1);
+    } catch (error) {
+      dispatch({ type: REGISTER_FAILURE, payload: error });
+      console.log("registerUser error", error);
     }
-    reqData.navigate("/");
-    dispatch({ type: REGISTER_SUCCESS, payload: data.data.accessToken });
-    console.log("registerUser success", data);
-  } catch (error) {
-    dispatch({ type: REGISTER_FAILURE, payload: error });
-    console.log("registerUser error", error);
-  }
-};
+  };
 
 export const loginUser =
   ({ reqData, setError, navigate }) =>
@@ -44,9 +43,19 @@ export const loginUser =
       if (data.data.accessToken) {
         localStorage.setItem("jwt", data.data.accessToken);
       }
-      dispatch({ type: LOGIN_SUCCESS, payload: data.data.accessToken });
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: {
+          jwt: data.data.accessToken,
+          userInfo: data.data.userResponse,
+        },
+      });
       console.log("loginUser success", data);
-      navigate("/my-profile");
+      if (data.data.userResponse.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/my-profile");
+      }
     } catch (error) {
       setError("Username or password is not correct!");
       dispatch({ type: LOGIN_FAILURE, payload: error });
@@ -62,9 +71,8 @@ export const getUser = (jwt) => async (dispatch) => {
         Authorization: `Bearer ${jwt}`,
       },
     });
-    console.log("getUser resData", data);
-    dispatch({ type: LOGIN_SUCCESS, payload: { userData: data.data } });
-    console.log("getUser success", data);
+    // console.log("getUser resData", data);
+    dispatch({ type: LOGIN_SUCCESS, payload: { userInfo: data.data } });
   } catch (error) {
     dispatch({ type: GET_USER_FAILURE, payload: error });
     console.log("error getUser", error);

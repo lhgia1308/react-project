@@ -1,37 +1,27 @@
-import React from 'react'
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import FastfoodIcon from '@mui/icons-material/Fastfood';
-import CategoryIcon from '@mui/icons-material/Category';
-import EventIcon from '@mui/icons-material/Event';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import LogoutIcon from '@mui/icons-material/Logout';
+import React, { useState } from 'react'
 import { Divider, Drawer, useMediaQuery } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../component/State/Authentication/Action';
+import { CustomModal } from '../../component/Modal/CustomModal'
 
-const menu = [
-    {title: 'Dashboard', icon: <DashboardIcon/>, path: '/'},
-    {title: 'Orders', icon: <ShoppingBagIcon/>, path: '/orders'},
-    {title: 'Food Category', icon: <CategoryIcon/>, path: '/category'},
-    {title: 'Ingredients', icon: <FastfoodIcon/>, path: '/ingredients'},
-    {title: 'Events', icon: <EventIcon/>, path: '/event'},
-    {title: 'Details', icon: <AdminPanelSettingsIcon/>, path: '/details'},
-    {title: 'Logout', icon: <LogoutIcon/>, path: '/'},
-]
-export const AdminSideBar = ({handleClose}) => {
+export const AdminSideBar = ({handleClose, menu}) => {
     const isSmallScreen = useMediaQuery("(max-width:1080px)")
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const jwt = localStorage.getItem('jwt');
+    const [openConfirmation, setOpenConfirmation] = useState(false);
     const handleNavigate = (item) => {
         if(item.title === 'Logout') {
-            dispatch(logout({jwt, navigate}))
+            setOpenConfirmation(true)
         }
         else {
             navigate(`/admin${item.path}`)
         }
+    }
+    const handleLogout = () => {
+        dispatch(logout({jwt, navigate}))
+        setOpenConfirmation(false)
     }
     return (
         <div>
@@ -43,10 +33,10 @@ export const AdminSideBar = ({handleClose}) => {
                 anchor='left' 
                 sx={{zIndex: 1}}
                 >
-                    <div className='w-[70vw] lg:w-[20vw] h-screen flex flex-col justify-center text-xl space-y-[2rem]'>
+                    <div className='w-[70vw] lg:w-[20vw] h-screen flex flex-col justify-center text-xl space-y-[2rem] -z-0'>
                         {
                             menu.map((item, i) => <>
-                                <div onClick={() => handleNavigate(item)} className='px-5 flex gap-3'>
+                                <div onClick={() => handleNavigate(item)} className='px-5 flex gap-3 cursor-pointer'>
                                     {item.icon}
                                     <span>{item.title}</span>
                                 </div>
@@ -55,6 +45,14 @@ export const AdminSideBar = ({handleClose}) => {
                         }
                     </div>
                 </Drawer>
+                <CustomModal 
+                title="LOGOUT" 
+                open={openConfirmation} 
+                setOpenConfirmation={setOpenConfirmation}
+                handleAccept={handleLogout}
+                >
+                    <p>Do you want to logout?</p>
+                </CustomModal>
             </>
         </div>
     )

@@ -9,9 +9,9 @@ import EventIcon from '@mui/icons-material/Event';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logout } from '../State/Authentication/Action';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { CustomModal } from '../Modal/CustomModal';
+import { logout } from '../State/Authentication/Action';
 
 const menu = [
     {title: "Dashboard", icon: <DashboardIcon/>},
@@ -63,11 +63,12 @@ export const ProfileNavigation = ({open, handleClose}) => {
         </Drawer>
         <CustomModal 
         title="LOGOUT" 
-        content="Do you want to logout?" 
         open={openConfirmation} 
         setOpenConfirmation={setOpenConfirmation}
-        handleLogout={handleLogout}
-        />
+        handleAccept={handleLogout}
+        >
+            <p>Do you want to logout?</p>
+        </CustomModal>
     </div>
   )
 }
