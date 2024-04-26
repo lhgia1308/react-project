@@ -12,26 +12,26 @@ export const CustomModal = (props) => {
     setOpenConfirmation(false)
   }
   return (
-    <div>
-      <React.Fragment>
-        <Dialog
-          open={open}
-          onClose={handleCloseModal}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          fullWidth
-        >
-          <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
-          <DialogContent>
-            <DialogContentText sx={{fontSize: "1.25rem"}} 
-            id="alert-dialog-description">{props.children}</DialogContentText>
-          </DialogContent>
-          <DialogActions className='gap-10'>
-            <Button variant='outlined' onClick={handleCloseModal}>Cancel</Button>
-            <Button variant='contained' onClick={handleAccept} autoFocus>Agree</Button>
-          </DialogActions>
-        </Dialog>
-      </React.Fragment>
-    </div>
+      <Dialog
+        open={open}
+        onClose={handleCloseModal}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        fullWidth
+      >
+        <DialogTitle className="alert-dialog-title">{title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText 
+          sx={{fontSize: "1.25rem"}} 
+          className="alert-dialog-description"
+          >
+            {props.children}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions className='gap-10'>
+          <Button variant='outlined' onClick={handleCloseModal}>Cancel</Button>
+          <Button variant='contained' onClick={handleAccept} autoFocus>Agree</Button>
+        </DialogActions>
+      </Dialog>
   )
 }
