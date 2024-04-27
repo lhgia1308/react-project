@@ -1,4 +1,5 @@
 import {
+  ADD_CATEGORY_FAILURE,
   ADD_CATEGORY_REQUEST,
   ADD_CATEGORY_SUCCESS,
   CATEGORY_REQUEST,
@@ -64,6 +65,14 @@ export const categoryReducer = (state = initialState, action) => {
           }),
         ],
         success: "Update category store successful",
+      };
+
+    case ADD_CATEGORY_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        categories: [...state.categories],
+        error: action.payload.error,
       };
 
     default:

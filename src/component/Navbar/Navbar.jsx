@@ -12,7 +12,6 @@ import HomeIcon from '@mui/icons-material/Home';
 export const Navbar = () => {
     const navigate = useNavigate();
     const { auth } = useSelector(store => store)
-    console.log('Navbar auth', auth)
     const handleClickAvatar = () => {
         if(auth.user?.role === 'ADMIN') {
             navigate('/admin')

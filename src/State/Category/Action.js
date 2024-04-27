@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_URL } from "../../component/Config/api";
 import {
+  ADD_CATEGORY_FAILURE,
   ADD_CATEGORY_REQUEST,
   ADD_CATEGORY_SUCCESS,
   CATEGORY_REQUEST,
@@ -35,8 +36,10 @@ export const addCategory =
           Authorization: `Bearer ${jwt}`,
         },
       });
+
       dispatch({ type: ADD_CATEGORY_SUCCESS, payload: { data: data.data } });
     } catch (error) {
+      dispatch({ type: ADD_CATEGORY_FAILURE, payload: { error: error } });
       console.log("addCategory error", error);
     }
   };
@@ -51,8 +54,10 @@ export const updateCategory =
           Authorization: `Bearer ${jwt}`,
         },
       });
+
       dispatch({ type: UPDATE_CATEGORY_SUCCESS, payload: { data: data.data } });
     } catch (error) {
+      dispatch({ type: ADD_CATEGORY_FAILURE, payload: { error: error } });
       console.log("updateCategory error", error);
     }
   };

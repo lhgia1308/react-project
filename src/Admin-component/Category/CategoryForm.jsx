@@ -1,5 +1,5 @@
 import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { addCategory, updateCategory } from '../../State/Category/Action';
 
@@ -19,29 +19,34 @@ export const CategoryForm = (props) => {
     const dispatch = useDispatch();
     const jwt = localStorage.getItem('jwt')
     const [formData, setFormData] = useState({
-        name: '',
-        description: '',
-        parent: 0
+        name: editCategory?.name ?? '',
+        description: editCategory?.description ?? '',
+        parent: editCategory?.parent ?? 0
     });
 
+    const initial = () => {
+       if(editCategory) {
+        setFormData({...editCategory})
+       }
+    }
     const handleClose = () => {
         setOpen(false)
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log('editCategory', editCategory)
         if(editCategory) {
-            console.log('formData', formData)
             dispatch(updateCategory({jwt, id: editCategory.id, reqData: formData}))
         }
         else {
             dispatch(addCategory({jwt, reqData: formData}))
         }
-        setOpen(false)
     }
     const handleFormChange = (e) => {
         setFormData({...formData, [e.target.name]:e.target.value})
     }
+    useEffect(() => {
+        initial()
+    }, [editCategory])
 
     return (
         <Modal
@@ -59,7 +64,7 @@ export const CategoryForm = (props) => {
                 >
                     <TextField
                     name='name'
-                    label="Name"
+                    label="Name (*)"
                     defaultValue={editCategory?.name}
                     fullWidth
                     margin='normal'
@@ -67,7 +72,7 @@ export const CategoryForm = (props) => {
                     
                     <TextField
                     name='description'
-                    label="Description"
+                    label="Description (*)"
                     defaultValue={editCategory?.description}
                     fullWidth
                     margin='normal'
@@ -76,21 +81,20 @@ export const CategoryForm = (props) => {
                     <FormControl fullWidth>
                         <InputLabel>Parent</InputLabel>
                         <Select
-                            name='parent'
-                            label="Parent"
-                            defaultValue={editCategory?.parent}
-                            onChange={handleFormChange}
+                        name='parent'
+                        label="Parent"
+                        defaultValue={editCategory?.parent.id}
+                        onChange={handleFormChange}
                         >
                             {
-                                categories?.map((item) => {
-                                    if(item.id !== editCategory?.id) {
-                                        return <MenuItem value={item.id}>{item.name}</MenuItem>
-                                    }
-                                    return <></>
-                                })
+                                categories?.map((item) => <MenuItem value={item.id}>{item.name}</MenuItem>)
                             }
                         </Select>
                     </FormControl>
+
+                    <Typography sx={{color: 'red', fontWeight: 'bold', marginTop: '1rem'}}>
+                        (*): Compulsory
+                    </Typography>
 
                     <div className='mt-4 flex flex-row gap-10 justify-end'>
                         <Button variant='outlined' onClick={handleClose}>Cancel</Button>
@@ -100,6 +104,7 @@ export const CategoryForm = (props) => {
                     </div>
                 </form>
             </Box>
+           
         </Modal>
     )
 }

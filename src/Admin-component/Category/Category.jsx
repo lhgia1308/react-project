@@ -27,6 +27,11 @@ export const Category = () => {
 			selector: row => row.description,
 		},
 		{
+			name: 'Parent',
+			selector: row => row.parent?.name,
+			sortable: true,
+		},
+		{
 			cell: (value) => <Button variant='contained' onClick={() => handleEdit(value)}>Edit</Button>,
 			ignoreRowClick: true,
 			allowOverflow: true,
@@ -69,7 +74,6 @@ export const Category = () => {
 		setOpenCategoryForm(true)
 		setEditCategory()
 	}
-	console.log("categoryStore", categoryStore)
 	useEffect(() => {
 			dispatch(getCategories({jwt: auth.jwt || jwt}))
 		}, [auth.jwt, dispatch, jwt]
@@ -102,7 +106,7 @@ export const Category = () => {
 			</CustomModal>
 
 			<CategoryForm categories={categoryStore.categories} editCategory={editCategory} type={typeCatForm} open={openCategoryForm} setOpen={setOpenCategoryForm}/>
-
+		
 			<Snackbar
 			open={openNotification}
 			autoHideDuration={4000}
@@ -113,9 +117,9 @@ export const Category = () => {
 				severity="error"
 				variant="filled"
 				sx={{ width: '100%' }}
-			>
-				{error}
-			</Alert>
+				>
+					{error}
+				</Alert>
 			</Snackbar>
 		</div>
 	);
