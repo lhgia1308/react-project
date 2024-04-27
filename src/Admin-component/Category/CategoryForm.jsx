@@ -18,15 +18,24 @@ export const CategoryForm = (props) => {
     const { open, setOpen, type, editCategory, categories } = props
     const dispatch = useDispatch();
     const jwt = localStorage.getItem('jwt')
-    const [formData, setFormData] = useState({
-        name: editCategory?.name ?? '',
-        description: editCategory?.description ?? '',
-        parent: editCategory?.parent ?? 0
-    });
+    const [formData, setFormData] = useState({});
 
     const initial = () => {
-       if(editCategory) {
-        setFormData({...editCategory})
+       if(type === 'UPDATE') {
+        const newFormData = {
+            name: editCategory?.name,
+            description: editCategory?.description,
+            parent: editCategory?.parent?.id
+        }
+        setFormData({...newFormData})
+       }
+       else {
+        const newFormData = {
+            name: '',
+            description: '',
+            parent: 0
+        }
+        setFormData({...newFormData})
        }
     }
     const handleClose = () => {
@@ -34,15 +43,21 @@ export const CategoryForm = (props) => {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        if(editCategory) {
+        if(type === 'UPDATE') {
             dispatch(updateCategory({jwt, id: editCategory.id, reqData: formData}))
+            handleClose();
         }
         else {
             dispatch(addCategory({jwt, reqData: formData}))
         }
     }
     const handleFormChange = (e) => {
-        setFormData({...formData, [e.target.name]:e.target.value})
+        if(e.target.name === 'Parent') {
+            setFormData({...formData, [e.target.name]:e.target.value.id})
+        }
+        else {
+            setFormData({...formData, [e.target.name]:e.target.value})
+        } 
     }
     useEffect(() => {
         initial()
@@ -83,7 +98,7 @@ export const CategoryForm = (props) => {
                         <Select
                         name='parent'
                         label="Parent"
-                        defaultValue={editCategory?.parent.id}
+                        defaultValue={editCategory?.parent?.id}
                         onChange={handleFormChange}
                         >
                             {

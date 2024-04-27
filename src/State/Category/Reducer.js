@@ -4,6 +4,8 @@ import {
   ADD_CATEGORY_SUCCESS,
   CATEGORY_REQUEST,
   CATEGORY_SUCCESS,
+  DELETE_MULTI_CATE_REQUEST,
+  DELETE_MULTI_CATE_SUCCESS,
   UPDATE_CATEGORY_REQUEST,
   UPDATE_CATEGORY_SUCCESS,
 } from "./ActionType";
@@ -36,6 +38,11 @@ export const categoryReducer = (state = initialState, action) => {
         category: null,
         success: null,
       };
+    case DELETE_MULTI_CATE_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
 
     case CATEGORY_SUCCESS:
       return {
@@ -65,6 +72,14 @@ export const categoryReducer = (state = initialState, action) => {
           }),
         ],
         success: "Update category store successful",
+      };
+    case DELETE_MULTI_CATE_SUCCESS:
+      return {
+        isLoading: false,
+        categories: state.categories.filter(
+          (item) => !action.payload.ids.includes(item.id)
+        ),
+        message: action.payload.message,
       };
 
     case ADD_CATEGORY_FAILURE:

@@ -71,7 +71,6 @@ export const getUser =
           Authorization: `Bearer ${jwt}`,
         },
       });
-      console.log("getUser resData", data);
       dispatch({ type: LOGIN_SUCCESS, payload: { userInfo: data.data } });
 
       if (location.pathname.includes("/admin") && data.data.role !== "ADMIN") {

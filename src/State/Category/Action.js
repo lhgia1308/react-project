@@ -6,6 +6,8 @@ import {
   ADD_CATEGORY_SUCCESS,
   CATEGORY_REQUEST,
   CATEGORY_SUCCESS,
+  DELETE_MULTI_CATE_REQUEST,
+  DELETE_MULTI_CATE_SUCCESS,
   UPDATE_CATEGORY_REQUEST,
   UPDATE_CATEGORY_SUCCESS,
 } from "./ActionType";
@@ -59,5 +61,28 @@ export const updateCategory =
     } catch (error) {
       dispatch({ type: ADD_CATEGORY_FAILURE, payload: { error: error } });
       console.log("updateCategory error", error);
+    }
+  };
+
+export const deleteMultiCat =
+  ({ jwt, ids }) =>
+  async (dispatch) => {
+    dispatch({ type: DELETE_MULTI_CATE_REQUEST });
+    try {
+      var idStr = ids.reduce((acc, item) => {
+        acc += `&ids=${item}`;
+        return acc;
+      }, "ids=-1");
+      const { data } = await axios.delete(`${API_URL}/category?${idStr}`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      dispatch({
+        type: DELETE_MULTI_CATE_SUCCESS,
+        payload: { message: data.message, ids },
+      });
+    } catch (error) {
+      console.log("deleteMultiCat error", error);
     }
   };
