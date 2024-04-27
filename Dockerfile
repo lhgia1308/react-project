@@ -3,7 +3,7 @@ ENV APP_ROOT /app
 WORKDIR ${APP_ROOT}
 COPY ["package.json", "./"]
 RUN apk update
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 FROM node:18-alpine as app
 ENV APP_ROOT /home/ubuntu/myapp
