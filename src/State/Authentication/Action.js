@@ -37,9 +37,7 @@ export const loginUser =
   async (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
     try {
-      console.log("loginUser reqData", reqData);
       const { data } = await axios.post(`${API_URL}/auth/sign-in`, reqData);
-      console.log("loginUser resData", data);
       if (data.data.accessToken) {
         localStorage.setItem("jwt", data.data.accessToken);
       }
@@ -63,21 +61,28 @@ export const loginUser =
     }
   };
 
-export const getUser = (jwt) => async (dispatch) => {
-  dispatch({ type: GET_USER_REQUEST });
-  try {
-    const { data } = await axios.get(`${API_URL}/user/profile`, {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    });
-    // console.log("getUser resData", data);
-    dispatch({ type: LOGIN_SUCCESS, payload: { userInfo: data.data } });
-  } catch (error) {
-    dispatch({ type: GET_USER_FAILURE, payload: error });
-    console.log("error getUser", error);
-  }
-};
+export const getUser =
+  ({ jwt, navigate, location }) =>
+  async (dispatch) => {
+    dispatch({ type: GET_USER_REQUEST });
+    try {
+      const { data } = await axios.get(`${API_URL}/user/profile`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      console.log("getUser resData", data);
+      dispatch({ type: LOGIN_SUCCESS, payload: { userInfo: data.data } });
+
+      if (location.pathname.includes("/admin") && data.data.role !== "ADMIN") {
+        navigate("/my-profile");
+      }
+    } catch (error) {
+      dispatch({ type: GET_USER_FAILURE, payload: { error: error } });
+      console.log("getUser error", error);
+      navigate("/");
+    }
+  };
 
 export const logout =
   ({ jwt, navigate }) =>

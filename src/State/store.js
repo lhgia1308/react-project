@@ -5,7 +5,7 @@ import { categoryReducer } from "./Category/Reducer";
 
 const rooteReducer = combineReducers({
   auth: authReducer,
-  category: categoryReducer,
+  categoryStore: categoryReducer,
 });
 
 export const store = legacy_createStore(rooteReducer, applyMiddleware(thunk));

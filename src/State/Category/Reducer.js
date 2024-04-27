@@ -1,4 +1,12 @@
-import { CATEGORY_REQUEST, CATEGORY_SUCCESS } from "./ActionType";
+import {
+  ADD_CATEGORY_FAILURE,
+  ADD_CATEGORY_REQUEST,
+  ADD_CATEGORY_SUCCESS,
+  CATEGORY_REQUEST,
+  CATEGORY_SUCCESS,
+  UPDATE_CATEGORY_REQUEST,
+  UPDATE_CATEGORY_SUCCESS,
+} from "./ActionType";
 
 const initialState = {
   isLoading: false,
@@ -14,6 +22,20 @@ export const categoryReducer = (state = initialState, action) => {
         categories: null,
         success: null,
       };
+    case ADD_CATEGORY_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        category: null,
+        success: null,
+      };
+    case UPDATE_CATEGORY_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        category: null,
+        success: null,
+      };
 
     case CATEGORY_SUCCESS:
       return {
@@ -22,6 +44,37 @@ export const categoryReducer = (state = initialState, action) => {
         categories: action.payload.data,
         success: "Get data success",
       };
+    case ADD_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        categories: [...state.categories, action.payload.data],
+        success: "Add a data success",
+      };
+    case UPDATE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        categories: [
+          ...state.categories.map((item) => {
+            if (item.id === action.payload.data.id) {
+              return action.payload.data;
+            } else {
+              return item;
+            }
+          }),
+        ],
+        success: "Update category store successful",
+      };
+
+    case ADD_CATEGORY_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        categories: [...state.categories],
+        error: action.payload.error,
+      };
+
     default:
       return state;
   }

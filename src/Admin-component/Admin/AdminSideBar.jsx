@@ -8,6 +8,9 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Divider } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../State/Authentication/Action';
+import { CustomModal } from '../../component/Modal/CustomModal';
 
 const drawerWidth = 240;
 export const AdminSideBar = (props) => {
@@ -17,33 +20,35 @@ export const AdminSideBar = (props) => {
     const [title, setTitle] = useState('');
     const navigate = useNavigate();
     const container = window !== undefined ? () => window().document.body : undefined;
+    const dispatch = useDispatch();
+    const [openConfirmation, setOpenConfirmation] = useState(false);
+    const jwt = localStorage.getItem('jwt')
 
+    const handleAcceptDelete = () => {
+        dispatch(logout({jwt, navigate}))
+    }
     const handleDrawerClose = () => {
         setIsClosing(true);
         setMobileOpen(false);
     };
-
     const handleDrawerTransitionEnd = () => {
         setIsClosing(false);
     };
-
     const handleDrawerToggle = () => {
         if (!isClosing) {
             setMobileOpen(!mobileOpen);
         }
     };
-
     const handleNavigate = (item) => {
         setTitle(item.title)
         if(item.title === 'Logout') {
-            
+            setOpenConfirmation(true)
         }
         else {
             navigate(`/admin${item.path}`)
         }
         handleDrawerClose()
     }
-
     const drawer = (
         <div className='flex flex-col gap-4'>
             {
@@ -129,6 +134,14 @@ export const AdminSideBar = (props) => {
                 }
               </Routes>
             </Box>
+            <CustomModal 
+			title="Logout" 
+			open={openConfirmation} 
+			setOpenConfirmation={setOpenConfirmation}
+			handleAccept={handleAcceptDelete}
+			>
+				<p>Do you want to logout?</p>
+			</CustomModal>
         </Box>
     );
 }

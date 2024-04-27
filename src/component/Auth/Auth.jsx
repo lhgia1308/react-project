@@ -23,7 +23,7 @@ export const Auth = () => {
     }
   return (
     <div>
-        <Modal 
+        <Modal
         onClose={handleClose}
         open={
             location.pathname === "/account/register"
